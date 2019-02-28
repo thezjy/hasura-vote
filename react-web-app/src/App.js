@@ -63,7 +63,6 @@ export default function App({ authState }) {
 
   const headers = isIn ? { Authorization: `Bearer ${authState.token}` } : {}
 
-  // Create an http link:
   const httpLink = new HttpLink({
     uri: 'https://your-heroku-domain/v1alpha1/graphql',
     headers,
@@ -79,10 +78,7 @@ export default function App({ authState }) {
     },
   })
 
-  // using the ability to split links, you can send data to each link
-  // depending on what kind of operation is being sent
   const link = split(
-    // split based on operation type
     ({ query }) => {
       const { kind, operation } = getMainDefinition(query)
       return kind === 'OperationDefinition' && operation === 'subscription'
