@@ -32,7 +32,6 @@
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "now-build": "react-scripts build",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
