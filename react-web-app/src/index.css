@@ -1,0 +1,23 @@
+div.auth {
+  max-width: 600px;
+  margin: 0px auto;
+}
+
+ul.pl-list {
+  padding: 0px;
+  width: 100%;
+}
+
+.pl-list li {
+  list-style: none;
+  padding: 12px 0px;
+  border-bottom: 1px solid black;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pl-list button {
+  margin-left: 10px;
+}

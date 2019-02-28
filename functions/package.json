@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "firebase-admin": "~7.0.0",
+    "firebase-functions": "^2.0.3"
+  },
+  "description": "Cloud Functions for Firebase",
+  "engines": {
+    "node": "8"
+  },
+  "name": "functions",
+  "private": true,
+  "scripts": {
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell"
+  }
+}
