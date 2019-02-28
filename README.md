@@ -13,7 +13,6 @@ It takes mainly 3 steps:
 - React
 - GraphQL
 - Some SQL
-- Apollo Client
 
 ## Try the demo
 
