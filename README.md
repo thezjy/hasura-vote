@@ -27,13 +27,13 @@ Building a robust authentication system is no small effort. It's so important th
 
 It's very easy to get Hasura running. Just follow the [Deploy Hasura to Heroku Guide](https://docs.hasura.io/1.0/graphql/manual/getting-started/heroku-simple.html) and in the end, you will have a brand new instance running at a domain that looks like "https://[your-heroku-project-name].herokuapp.com".
 
-![Image of Heroku Config Vars]()
+![Image of Heroku Config Vars](https://github.com/thezjy/hasura-vote/blob/master/screenshots/heroku-config-vars.png?raw=true)
 
 We need to set some environment variables as we are in the Heroku console. Set `HASURA_GRAPHQL_ADMIN_SECRET` to some secret and write it down before you forget it, thus out API can't be accessed by some random guy on the Internet. Since we will use JWT from Firebase, set `HASURA_GRAPHQL_JWT_SECRET` to `{"type":"RS512", "jwk_url": "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com"}`. Finally, set `HASURA_GRAPHQL_UNAUTHORIZED_ROLE` to `anonymous` because we do allow unauthenticated users to write and read some data.
 
 Now it's time for data modeling. First, we need a "programming_language" table with "name" and "vote_count" field.
 
-![Image of programming_language table]()
+![Image of programming_language table](https://github.com/thezjy/hasura-vote/blob/master/screenshots/programming-language-table.png?raw=true)
 
 Also, we need a "loved_language" table to record whether a language is loved by some user. Since a user can only love a language once, we need to set the primary key as name and user_id combined. There is no way to do that in the "Add Table" UI, but Hasura conveniently provides a way to execute raw SQL:
 
@@ -46,19 +46,19 @@ CREATE TABLE "public"."loved_language" (
 )
 ```
 
-![Image of loved_language table]()
+![Image of loved_language table](https://github.com/thezjy/hasura-vote/blob/master/screenshots/love-language-table.png?raw=true)
 
 After you create these two tables, Hasura would notice the one-to-many relationship between them and help you create the corresponding GraphQL relationship.
 
-![Image of relationship]()
+![Image of relationship](https://github.com/thezjy/hasura-vote/blob/master/screenshots/relationship.png?raw=true)
 
 Hooray! Now that we have a data model, you can play with the API in GraphiQL. Insert some of your favorite languages. Give them some vote. Love them by some random "user_id". Since we are signed in as admin, we can do anything we want. But we need to set proper permissions for the "anonymous" and "user" role. We allow both of them to select and update "programming_language":
 
-![Image of programming_language permission]()
+![Image of programming_language permission](https://github.com/thezjy/hasura-vote/blob/master/screenshots/programming-language-permission.png?raw=true)
 
 For "loved_language", we only allow the "user" role to insert, select and delete. Notice for insert the "user_id" must come from "X-Hasura-User-Id".
 
-![Image of loved_language permission]()
+![Image of loved_language permission](https://github.com/thezjy/hasura-vote/blob/master/screenshots/loved-language-permission.png?raw=true)
 
 With permissions set, all we need is a secure way to get the "X-Hasura-User-Id".
 
@@ -68,7 +68,7 @@ Go to the [Firebase website](https://firebase.google.com/) to create a new proje
 
 In the Authentication section of the Firebase console, turn on the Google sign-in provider. In this tutorial, we only use Google sign-in, but adding other providers is trivial. Notice at the bottom of the page, in "Authorized domains", `localhost` and a Firebase domain are automatically added. If you later decide to deploy the React app to another domain, you need to add it here for Google sign-in to work.
 
-![Image of Firebase Authentication]()
+![Image of Firebase Authentication](https://github.com/thezjy/hasura-vote/blob/master/screenshots/firebase-authentication.png?raw=true)
 
 Now we can sign in users and get their id token for Hasura in the React app, using the Firebase JS SDK. But for Hasura to know the identity of these users, whose data are stored in Firebase, we need to add some specific "custom claims" required by Hasura to the token. We will use Cloud Functions for Firebase to do that, following the [example](https://github.com/hasura/graphql-engine/tree/master/community/sample-apps/firebase-jwt) in the Hasura repo.
 
@@ -111,7 +111,7 @@ Deploying cloud function is simple. Follow the official [Get started guide](http
 
 Before you leave the Firebase console, you need to do one more setting. Go to the Realtime Database Rules section and change "read" from "false" to "true". Otherwise, the client won't be able to listen to the token refresh.
 
-![Image of Realtime Database Rules]()
+![Image of Realtime Database Rules](https://github.com/thezjy/hasura-vote/blob/master/screenshots/realtime-database-rules.png?raw=true)
 
 ## Step Three: React
 
