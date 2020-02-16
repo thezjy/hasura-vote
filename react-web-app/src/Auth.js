@@ -33,7 +33,10 @@ export default function Auth() {
             .database()
             .ref('metadata/' + user.uid + '/refreshTime')
 
-          metadataRef.on('value', async () => {
+          metadataRef.on('value', async data => {
+            if (!data.exists) {
+              return
+            }
             // Force refresh to pick up the latest custom claims changes.
             // Note this is always triggered on first call. Further optimization could be
             // added to avoid the initial trigger when the token is issued and already contains

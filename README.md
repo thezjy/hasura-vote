@@ -158,7 +158,10 @@ export default function Auth() {
             .database()
             .ref("metadata/" + user.uid + "/refreshTime");
 
-          metadataRef.on("value", async () => {
+          metadataRef.on("value", async data => {
+            if (!data.exists) {
+              return;
+            }
             // Force refresh to pick up the latest custom claims changes.
             const token = await user.getIdToken(true);
             setAuthState({ status: "in", user, token });
